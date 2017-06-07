@@ -123,6 +123,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\Users\lin1318\Documents\Visual Studio 2017\Projects\dllAtaxx\dllsearch;C:\Users\lin1318\Documents\Visual Studio 2017\Projects\dllAtaxx\dllAtaxx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
