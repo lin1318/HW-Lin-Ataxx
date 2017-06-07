@@ -5,7 +5,6 @@
 #include<algorithm>
 #include<cmath>	
 using namespace System;
-
 namespace ClassLibrary1 {
 	public ref class wrapper {
 	public:
@@ -38,6 +37,12 @@ namespace ClassLibrary1 {
 		}
 		bool checkmove(int x, int y, int player, int chessboard[7][7]) {
 			return ptr->checkmove(x, y, player, chessboard);
+		}
+		double evaluate(int chessboard[7][7]) {
+			return ptr->evaluate(chessboard);
+		}
+		double alphabeta(int chessboard[7][7], int depth, double alpha, double beta, int player) {
+			return ptr->alphabeta(chessboard, depth, alpha, beta, player);
 		}
 	private:
 		CdllAtaxx *ptr;
