@@ -21,18 +21,18 @@ namespace ConsoleApp1
             board[6, 0] = 2;
             searcher.helpsearch();
             int player = 1;
-            int times = 0;
-            while (times<4)
+            int times = 30;
+            while (!searcher.check(player,board))
             {
-                searcher.alphabeta(board, 4, 999999.9, -999999.9, player);
+                searcher.alphabeta(board, 4, 99999999.9, -99999999.9, player);
                 fx = searcher.getfx();
                 fy = searcher.getfy();
                 tx = searcher.gettx();
                 ty = searcher.getty();
-                int way = Math.Max(Math.Abs(fx - tx), Math.Abs(tx - ty));
+                int way = Math.Max(Math.Abs(fx - tx), Math.Abs(fy - ty));
                 if (way == 2)
                 {
-                    board[tx, ty] = 0;
+                    board[fx, fy] = 0;
                 }
                 searcher.moving(tx, ty, player, ref board);
                 for (int i = 0; i < 7; i++)
@@ -45,7 +45,7 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
                 player = 3 - player;
-                times++;
+                times--;
             }
         }
     }

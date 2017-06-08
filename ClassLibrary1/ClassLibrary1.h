@@ -22,8 +22,12 @@ namespace ClassLibrary1 {
 					chessboard[i][j] = cboard[i,j];
 			return ptr->validmove(x,y,xi,yi,player,chessboard);
 		}
-		bool check(int player) {
-			return ptr->check(player);
+		bool check(int player, cli::array<int, 2>^ cboard) {
+			int chessboard[7][7];
+			for (int i = 0; i < 7; i++)
+				for (int j = 0; j < 7; j++)
+					chessboard[i][j] = cboard[i, j];
+			return ptr->check(player,chessboard);
 		}
 		int getfx() {
 			return ptr->getfx();

@@ -18,16 +18,9 @@ public:
 	CdllAtaxx(void);
 	// TODO:  在此添加您的方法。
     void helpsearch() {
-		for (int i = 0; i < 7; i++)
-			for (int j = 0; j < 7; j++)
-				board[i][j] = 0;
-		board[0][0] = black;
-		board[0][6] = white;
-		board[6][0] = white;
-		board[6][6] = black;
 		fx = 0; fy = 0; tx = 0; ty = 0;
 	}
-	bool check(int player) {
+	bool check(int player,int board[7][7]) {
 		int i, j, x, y, k, x1, y1;
 		bool flag = true;
 		for (i = 0; i < 7; i++)
@@ -96,20 +89,21 @@ public:
 	}
 	double evaluate(int chessboard[7][7]) {
 		int i, j;
+		double k = 1.0;
 		double score = 0.0;
 		for (i = 0; i<7; i++)
 			for (j = 0; j<7; j++)
 				if (chessboard[i][j] == black) {
-					score--;
+					score-=k;
 					if (checkmove(i, j, black, chessboard)) {
-						score -= 0.5;
+						score -= (k/2);
 					}
 				}
 				else
 					if (chessboard[i][j] == white) {
-						score++;
+						score+=k;
 						if (checkmove(i, j, white, chessboard)) {
-							score += 0.5;
+							score += (k/2);
 						}
 					}
 		return score;
@@ -144,7 +138,6 @@ public:
 										tx = xi; ty = yi;
 									}
 								}
-							}
 								alpha = max(v, alpha);
 								for (int i1 = 0; i1 < 7; i1++)
 									for (int j1 = 0; j1 < 7; j1++)
@@ -152,6 +145,7 @@ public:
 								if (beta <= alpha)
 									break;
 							}
+						}
 						for (k = 0; k < 16; k++) {
 							xi = x + moveway2[k][0];
 							yi = y + moveway2[k][1];
@@ -168,13 +162,13 @@ public:
 										tx = xi; ty = yi;
 									}
 								}
-							}
 								alpha = max(v, alpha);
 								for (int i1 = 0; i1 < 7; i1++)
 									for (int j1 = 0; j1 < 7; j1++)
 										chessboard[i1][j1] = originboard[i1][j1];
 								if (beta <= alpha)
 									break;
+								}
 							}
 						}
 			return v;
@@ -194,19 +188,19 @@ public:
 									v = min(v, alphabeta(chessboard, depth - 1, alpha, beta, 3 - player));
 								else {
 									p = alphabeta(chessboard, depth - 1, alpha, beta, 3 - player);
-									if (v < p) {
+									if (v > p) {
 										v = p;
 										fx = x; fy = y;
 										tx = xi; ty = yi;
 									}
 								}
-							}
 								beta = min(v, beta);
 								for (int i1 = 0; i1 < 7; i1++)
 									for (int j1 = 0; j1 < 7; j1++)
 										chessboard[i1][j1] = originboard[i1][j1];
 								if (beta <= alpha)
 									break;
+							}
 						}
 						for (k = 0; k < 16; k++) {
 							xi = x + moveway2[k][0];
@@ -218,7 +212,7 @@ public:
 									v = min(v, alphabeta(chessboard, depth - 1, alpha, beta, 3 - player));
 								else {
 									p = alphabeta(chessboard, depth - 1, alpha, beta, 3 - player);
-									if (v < p) {
+									if (v > p) {
 										v = p;
 										fx = x; fy = y;
 										tx = xi; ty = yi;
@@ -238,7 +232,7 @@ public:
 	}
 public:
 	const int black = 1, white = 2;
-	int fx, fy, tx, ty, board[7][7];
+	int fx, fy, tx, ty;
 	const int moveway1[8][2] = { { 1,0 },{ 0,1 },{ -1,0 },{ -1,1 },{ 1,1 },{ 1,-1 },{ 0,-1 },{ -1,-1 } };
 	const int moveway2[16][2] = { { -2,-2 },{ -2,-1 },{ -2,0 },{ -2,1 },{ -2,2 },{ -1,-2 },{ -1,2 },{ 0,-2 },{ 0,2 },{ 1,-2 },{ 1,2 },{ 2,-2 },{ 2,-1 },{ 2,0 },{ 2,1 },{ 2,2 } };
 };
