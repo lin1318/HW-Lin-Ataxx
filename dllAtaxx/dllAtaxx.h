@@ -25,6 +25,7 @@ public:
 		board[0][6] = white;
 		board[6][0] = white;
 		board[6][6] = black;
+		fx = 0; fy = 0; tx = 0; ty = 0;
 	}
 	bool check(int player) {
 		int i, j, x, y, k, x1, y1;
@@ -143,6 +144,7 @@ public:
 										tx = xi; ty = yi;
 									}
 								}
+							}
 								alpha = max(v, alpha);
 								for (int i1 = 0; i1 < 7; i1++)
 									for (int j1 = 0; j1 < 7; j1++)
@@ -150,7 +152,6 @@ public:
 								if (beta <= alpha)
 									break;
 							}
-						}
 						for (k = 0; k < 16; k++) {
 							xi = x + moveway2[k][0];
 							yi = y + moveway2[k][1];
@@ -167,6 +168,7 @@ public:
 										tx = xi; ty = yi;
 									}
 								}
+							}
 								alpha = max(v, alpha);
 								for (int i1 = 0; i1 < 7; i1++)
 									for (int j1 = 0; j1 < 7; j1++)
@@ -175,7 +177,6 @@ public:
 									break;
 							}
 						}
-					}
 			return v;
 		}
 		else {
@@ -189,14 +190,23 @@ public:
 							yi = y + moveway1[k][1];
 							if (validmove(x, y, xi, yi, player, chessboard)) {
 								moving(xi, yi, black, chessboard);
-								v = min(v, alphabeta(chessboard, depth - 1, alpha, beta, 3 - player));
+								if (depth < 4)
+									v = min(v, alphabeta(chessboard, depth - 1, alpha, beta, 3 - player));
+								else {
+									p = alphabeta(chessboard, depth - 1, alpha, beta, 3 - player);
+									if (v < p) {
+										v = p;
+										fx = x; fy = y;
+										tx = xi; ty = yi;
+									}
+								}
+							}
 								beta = min(v, beta);
 								for (int i1 = 0; i1 < 7; i1++)
 									for (int j1 = 0; j1 < 7; j1++)
 										chessboard[i1][j1] = originboard[i1][j1];
 								if (beta <= alpha)
 									break;
-							}
 						}
 						for (k = 0; k < 16; k++) {
 							xi = x + moveway2[k][0];
@@ -204,7 +214,16 @@ public:
 							if (validmove(x, y, xi, yi, player, chessboard)) {
 								moving(xi, yi, black, chessboard);
 								chessboard[x][y] = 0;
-								v = min(v, alphabeta(chessboard, depth - 1, alpha, beta, 3 - player));
+								if (depth < 4)
+									v = min(v, alphabeta(chessboard, depth - 1, alpha, beta, 3 - player));
+								else {
+									p = alphabeta(chessboard, depth - 1, alpha, beta, 3 - player);
+									if (v < p) {
+										v = p;
+										fx = x; fy = y;
+										tx = xi; ty = yi;
+									}
+								}
 								beta = min(v, beta);
 								for (int i1 = 0; i1 < 7; i1++)
 									for (int j1 = 0; j1 < 7; j1++)
