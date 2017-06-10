@@ -1,0 +1,59 @@
+﻿<Window x:Class="Ataxx.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ataxx"
+        mc:Ignorable="d"
+        Title="Attax" ResizeMode="CanMinimize" Height="800" Width="1000">
+    <Viewbox>
+        <Grid Height="800" Width="1000">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Canvas Grid.Row="0" Background="LightGray">
+                <Image Height="56" Canvas.Left="0" Canvas.Top="0" Stretch="UniformToFill" Source=".\ataxx1.png"/>
+                <Label Content="Attax" Canvas.Left="100" Canvas.Top="10" Foreground="Black" FontFamily="Segoe" FontSize="24"/>
+            </Canvas>
+            <DockPanel Grid.Row="1" Margin="0">
+                <Menu Background="White">
+                    <MenuItem Header="_Option" Height="25" Click="OptionButton_Click" Name="OptionButton">
+                    </MenuItem>
+                    <MenuItem Header="_About" Height="25" Click="AboutButton_Click" Name="AboutButton">
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+            <Grid Grid.Row="2" Name="chessboard" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="344*"/>
+                    <ColumnDefinition Width="153*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.Column="0" Stroke="Black" Stretch="Uniform" Canvas.Left="10" Canvas.Top="10" Margin="10,10,10,10" Fill="Gray" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="46*"/>
+                        <RowDefinition Height="211*"/>
+                        <RowDefinition Height="51*"/>
+                        <RowDefinition Height="380*"/>
+                    </Grid.RowDefinitions>
+                    <Canvas Grid.Row="0" Background="LightGray" Margin="10,0,10,0">
+                        <Label Content="Game Status" Canvas.Top="10" Canvas.Left="10"/>
+                    </Canvas>
+                    <Canvas Grid.Row="1" Margin="10,0,10,0">
+                        <Label Content="Black: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="10" Canvas.Left="10" Name="BlackLabel"/>
+                        <Label Content="White: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="50" Canvas.Left="10" Name="WhiteLabel"/>
+                        <Label Content="Mode: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="90" Canvas.Left="10" Name="ModeLabel"/>
+                    </Canvas>
+                    <Canvas Grid.Row="2" Background="LightGray" Margin="10,0,10,0">
+                        <Label Content="Game Control" Canvas.Left="10" Canvas.Top="10"/>
+                    </Canvas>
+                    <Canvas Grid.Row="3" Margin="10,0,10,0">
+                        <Button Content="Restart" Canvas.Left="10" Canvas.Top="20" Width="75" Name="Restart" Click="RestartButton_Click"/>
+                    </Canvas>
+                </Grid>
+            </Grid>
+        </Grid>
+      </Viewbox>
+</Window>
