@@ -20,6 +20,9 @@
             <DockPanel Grid.Row="1" Margin="0">
                 <Menu Background="White">
                     <MenuItem Header="_Option" Height="25" Click="OptionButton_Click" Name="OptionButton">
+                        <MenuItem Header="Computer vs human" Click="Chuman_Click" Name="CHButton"></MenuItem>
+                        <MenuItem Header="human vs human" Click="Hhuman_Click" Name="HHButton"></MenuItem>
+                        <MenuItem Header="human vs Computer" Click="Hcomputer_Click" Name="HCButton"></MenuItem>
                     </MenuItem>
                     <MenuItem Header="_About" Height="25" Click="AboutButton_Click" Name="AboutButton">
                     </MenuItem>
@@ -45,12 +48,15 @@
                         <Label Content="Black: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="10" Canvas.Left="10" Name="BlackLabel"/>
                         <Label Content="White: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="50" Canvas.Left="10" Name="WhiteLabel"/>
                         <Label Content="Mode: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="90" Canvas.Left="10" Name="ModeLabel"/>
+                        <Label Content="Playing Status: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="130" Canvas.Left="10" Name="StatusLabel"/>
+                        <Label Content="Game Status: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Canvas.Top="170" Canvas.Left="10" Name="GStatusLabel"/>
                     </Canvas>
                     <Canvas Grid.Row="2" Background="LightGray" Margin="10,0,10,0">
                         <Label Content="Game Control" Canvas.Left="10" Canvas.Top="10"/>
                     </Canvas>
                     <Canvas Grid.Row="3" Margin="10,0,10,0">
-                        <Button Content="Restart" Canvas.Left="10" Canvas.Top="20" Width="75" Name="Restart" Click="RestartButton_Click"/>
+                        <Button Content="Clear_Board" Canvas.Left="10" Canvas.Top="20" Width="75" Name="Restart" Click="RestartButton_Click"/>
+                        <Button Content="Start" Canvas.Left="10" Canvas.Top="60" Width="75" Name="Start" Click="StartButton_Click"/>
                     </Canvas>
                 </Grid>
             </Grid>

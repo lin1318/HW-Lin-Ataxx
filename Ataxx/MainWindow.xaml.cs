@@ -20,20 +20,27 @@ namespace Ataxx
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
+    ///  
     public partial class MainWindow : Window
     {
+        public static string sb;
+        String wl;
+        String bl;
         private ClassLibrary1.wrapper invoke;
         int[,] board = new int[7, 7];
+        public static int b = 0, w = 0;
         int x, y, x1, y1;
         int click_times;
+        int mode=3;
         private List<UIElement> visuals = new List<UIElement>();
+        int sta = 0;
         private int turn = 1;
         public MainWindow()
         {
             InitializeComponent();
             InitWindow();
         }
-        void drawing()
+        void drawing(int dx,int dy,int dx1,int dy1,int g)
         {
             for(int i=0;i<visuals.Count;++i)
                 chessboard.Children.Remove(visuals[i]);
@@ -59,19 +66,74 @@ namespace Ataxx
                         chessboard.Children.Add(circle);
                         visuals.Add(circle);
                     }
+            if (g == 1)
+            {
+                System.Windows.Shapes.Ellipse circle;
+                circle = new System.Windows.Shapes.Ellipse()
+                {
+                    Height = 5,
+                    Width = 5
+                };
+                double left = -15 - 164 * (3 - dy);
+                double top = -40 - 164 * (3 - dx);
+                circle.Margin = new Thickness(left, top, 0, 0);
+                circle.Fill = new SolidColorBrush(Colors.Red);
+                chessboard.Children.Add(circle);
+                visuals.Add(circle);
+            }
+            if (g == 1)
+            {
+                System.Windows.Shapes.Ellipse circle;
+                circle = new System.Windows.Shapes.Ellipse()
+                {
+                    Height = 5,
+                    Width = 5
+                };
+                double left = -15 - 164 * (3 - dy1);
+                double top = -40 - 164 * (3 - dx1);
+                circle.Margin = new Thickness(left, top, 0, 0);
+                circle.Fill = new SolidColorBrush(Colors.Red);
+                chessboard.Children.Add(circle);
+                visuals.Add(circle);
+            }
         }
+
         public void winprinter()
         {
-
+            for (int i = 0; i < 7; i++)
+                for (int j = 0; j < 7; j++)
+                {
+                    if (board[i, j] == 1)
+                        ++b;
+                    if (board[i, j] == 2)
+                        ++w;
+                }
+            if (b > w && mode == 1)
+                sb = "Computer(Black) wins!";
+            if (b > w && mode == 3)
+                sb = "Human(Black) wins!";
+            if (w > b && mode==1)
+                sb = "Human(White) wins!";
+            if (w > b && mode == 3)
+                sb = "Computer(White) wins!";
+            if (mode == 2 && w > b)
+                sb = "Player2(White) wins!";
+            if (mode == 2 && b > w)
+                sb = "Player1(Black) wins!";
+            if (b == w)
+                sb = "Draw!";
+            Result ab=new Result();
+            ab.ShowDialog();
+            b = 0;w = 0;
         }
         private async Task playbyAI()
         {
-         /*   if (invoke.check(2, board))
-            {
-                winprinter();
-            }*/
+            StatusLabel.Content = "Status: The robot is thinking!";
             Task<double> com;
-            com = Task.Run(() =>invoke.alphabeta(board,4,-99999999.9,99999999.9,2));
+            int what = 2 - turn % 2;
+            if (mode == 1)
+                what = 3 - what;
+            com = Task.Run(() =>invoke.alphabeta(board,4,-99999999.9,99999999.9,what));
             await com;
             var data=com.Result;
             int fx = invoke.getfx();
@@ -80,37 +142,63 @@ namespace Ataxx
             int ty = invoke.getty();
             int way = Math.Max(Math.Abs(fx - tx), Math.Abs(fy - ty));
             if (way == 2)
-                board[fx, fy] = 0;
-            invoke.moving(tx, ty, 2, ref board);
-            WhiteLabel.Content = "White: " +fx.ToString()+" "+fy.ToString()+" "+tx.ToString()+" "+ty.ToString();
-            Thread.Sleep(500);
-            drawing();
+                board[fx, fy] = 0;          
+            invoke.moving(tx, ty, what, ref board);
+            if(what==2)
+                WhiteLabel.Content =wl+"  ("+fx.ToString()+","+fy.ToString()+") "+"-> ("+tx.ToString()+","+ty.ToString()+")";
+            else
+                BlackLabel.Content =bl+ "  (" + fx.ToString() + "," + fy.ToString() + ") " + "-> (" + tx.ToString() + "," + ty.ToString() + ")";
+            //Thread.Sleep(500);
+            drawing(fx,fy,tx,ty,1);
+            if (invoke.check(3 - what, board))
+            {
+                winprinter();
+                return;
+            }
         }
         public void playing()
         {
-            while (!invoke.check(2, board))
+            if (mode == 2)
+            {
+                StatusLabel.Content = "Status: "+"Player"+(2-turn%2).ToString()+" Turn";
+                return;
+            }
+            int x;
+            if (mode == 1)
+                x = 1;
+            else
+                x = 2;
+            if (!invoke.check(x, board))
             {
                 if (turn % 2 == 0)
                 {
-                    ModeLabel.Content = "Mode Computer Thinking!";
+                    
 #pragma warning disable CS4014
                     playbyAI();
 #pragma warning restore CS4014
                     turn++;
+                    StatusLabel.Content = "Status: Player turn";
                 }
                 else
+                { 
                     return;
+                }
+            }
+            else
+            {
+                winprinter();
             }
             return;
 
         }
         private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (turn % 2 == 0)
+            if (sta == 0)
+                return;
+            if (turn % 2 == 0&&mode!=2)
               return;
             int tmp;
             Point pt = e.GetPosition(this);
-            ModeLabel.Content = "Mode Your turn!";
             if (click_times == 0)
             {
                 x = Convert.ToInt32(Math.Floor((pt.X - 35) / 82));
@@ -135,13 +223,22 @@ namespace Ataxx
                 {
                     return;
                 }
-                if (invoke.validmove(x, y, x1, y1, 1, board))
+                int what = 2 - turn % 2;
+                if (mode == 1)
+                    what = 3 - what;
+                if (invoke.validmove(x, y, x1, y1, what, board))
                 {
-                    invoke.moving(x1, y1, 1, ref board);
+                    invoke.moving(x1, y1, what, ref board);
                     int way = Math.Max(Math.Abs(x - x1), Math.Abs(y - y1));
                     if (way == 2)
                         board[x, y] = 0;
                     ++turn;
+                    drawing(x,y,x1,y1,1);
+                    if (invoke.check(3-what, board))
+                    {
+                        winprinter();
+                        return;
+                    }
                     playing();
                 }
                 else
@@ -151,7 +248,6 @@ namespace Ataxx
                     return;
                 }
                 click_times = 0;
-                drawing();
             }
             return;
         }
@@ -163,9 +259,75 @@ namespace Ataxx
         {
 
         }
+        private void StartButton_Click(object sender,RoutedEventArgs e)
+        {
+            sta = 1;
+            GStatusLabel.Content = "Game Status: Start";
+            if (mode != 1)
+            {
+                wl = WhiteLabel.Content.ToString();
+                bl = BlackLabel.Content.ToString();
+            }
+            OptionButton.IsEnabled= false;
+            Start.IsEnabled = false;
+        }
+        private void Chuman_Click(object sender,RoutedEventArgs e)
+        {
+            mode = 1;
+            BlackLabel.Content = "Black: " + "Computer";
+            WhiteLabel.Content = "White: " + "Player";
+            ModeLabel.Content = "Mode: " + "computer vs human";
+            StatusLabel.Content = "Status: " + "The robot is thinking";
+            OptionButton.IsEnabled = false;
+            Start.IsEnabled = true;
+            turn++;
+            wl = WhiteLabel.Content.ToString();
+            bl = BlackLabel.Content.ToString();
+            playing();
+        }
+
+        private void Hhuman_Click(object sender, RoutedEventArgs e)
+        {
+            mode = 2;
+            BlackLabel.Content = "Black: " + "Player1";
+            WhiteLabel.Content = "White: " + "Player2";
+            ModeLabel.Content = "Mode: "+"human vs computer";
+            StatusLabel.Content = "Status: " + "Player1 Turn";
+            OptionButton.IsEnabled = false;
+            Start.IsEnabled = true;
+        }
+
+        private void Hcomputer_Click(object sender, RoutedEventArgs e)
+        {
+            mode = 3;
+            BlackLabel.Content = "Black: " + "Player";
+            WhiteLabel.Content = "White: " + "Computer";
+            ModeLabel.Content = "Mode: " + "human vs computer";
+            StatusLabel.Content = "Status: " + "Player Turn";
+            GStatusLabel.Content = "Game Status: No start";
+            OptionButton.IsEnabled = false;
+            Start.IsEnabled = true;
+        }
         private void RestartButton_Click(object sender, RoutedEventArgs e)
         {
-
+            for (int i = 0; i < 7; i++)
+                for (int j = 0; j < 7; j++)
+                    board[i, j] = 0;
+            board[0, 6] = 2;
+            board[6, 0] = 2;
+            board[0, 0] = 1;
+            board[6, 6] = 1;
+            OptionButton.IsEnabled = true;
+            click_times = 0;
+            BlackLabel.Content = "Black: ";
+            WhiteLabel.Content = "White: ";
+            ModeLabel.Content = "Mode: ";
+            StatusLabel.Content = "Status: ";
+            GStatusLabel.Content = "Game Status: " + "No start";
+            Start.IsEnabled =false;
+            turn = 1;
+            sta = 0;
+            drawing(0,0,0,0,0);
         }
         public void Drawchessboard(int i, bool horizontal)
         {
@@ -203,12 +365,10 @@ namespace Ataxx
                 Drawchessboard(ii, true);
                 Drawchessboard(ii, false);
             }
-            drawing();
+            drawing(0,0,0,0,0);
             invoke = new ClassLibrary1.wrapper();
             click_times= 0;
-            BlackLabel.Content = "Black: " +"player";
-            WhiteLabel.Content = "White: " + "computer";
-            ModeLabel.Content = "Mode: Your turn!";
+            Start.IsEnabled = false;
         }
     }
 }
