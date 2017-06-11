@@ -122,8 +122,7 @@ namespace Ataxx
                 sb = "Player1(Black) wins!";
             if (b == w)
                 sb = "Draw!";
-            Result ab=new Result();
-            ab.ShowDialog();
+            MessageBoxResult result = MessageBox.Show("Black: "+b.ToString()+"\nWhite: "+w.ToString()+"\nResult: "+sb,"Result");
             b = 0;w = 0;
         }
         private async Task playbyAI()
@@ -195,7 +194,7 @@ namespace Ataxx
         {
             if (sta == 0)
                 return;
-            if (turn % 2 == 0&&mode!=2)
+            if (turn % 2 == 1&&mode!=2)
               return;
             int tmp;
             Point pt = e.GetPosition(this);

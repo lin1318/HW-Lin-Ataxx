@@ -11,6 +11,8 @@
 #endif
 #include<algorithm>
 #include<cmath>
+#include<cstdlib>
+#include<windows.h>
 using namespace std;
 // 此类是从 dllAtaxx.dll 导出的
 class DLLATAXX_API CdllAtaxx {
