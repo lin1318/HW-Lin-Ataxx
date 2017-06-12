@@ -176,7 +176,6 @@ namespace Ataxx
                     playbyAI();
 #pragma warning restore CS4014
                     turn++;
-                    StatusLabel.Content = "Status: Player turn";
                 }
                 else
                 { 
@@ -194,7 +193,7 @@ namespace Ataxx
         {
             if (sta == 0)
                 return;
-            if (turn % 2 == 1&&mode!=2)
+            if (turn % 2 == 0&&mode!=2)
               return;
             int tmp;
             Point pt = e.GetPosition(this);
@@ -273,6 +272,7 @@ namespace Ataxx
         private void Chuman_Click(object sender,RoutedEventArgs e)
         {
             mode = 1;
+            sta = 1;
             BlackLabel.Content = "Black: " + "Computer";
             WhiteLabel.Content = "White: " + "Player";
             ModeLabel.Content = "Mode: " + "computer vs human";
