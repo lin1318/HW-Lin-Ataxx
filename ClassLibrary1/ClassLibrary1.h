@@ -1,7 +1,7 @@
 // ClassLibrary1.h
 
 #pragma once
-#include "./dllAtaxx.h"
+#include ".\dllAtaxx.h"
 #include<algorithm>
 #include<cmath>	
 using namespace System;

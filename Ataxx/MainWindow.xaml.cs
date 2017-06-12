@@ -368,7 +368,7 @@ namespace Ataxx
             }
             drawing(0,0,0,0,0);
             invoke = new ClassLibrary1.wrapperlin();
-            click_times= 0;
+            click_times = 0;
             Start.IsEnabled = false;
         }
     }
