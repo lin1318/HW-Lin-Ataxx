@@ -1,16 +1,16 @@
 // ClassLibrary1.h
 
 #pragma once
-#include "dllAtaxx.h"
+#include "./dllAtaxx.h"
 #include<algorithm>
 #include<cmath>	
 using namespace System;
 namespace ClassLibrary1 {
-	public ref class wrapper {
+	public ref class wrapperlin {
 	public:
-		wrapper() { ptr = new CdllAtaxx; }
-		~wrapper() { this->!wrapper(); }
-		!wrapper() { delete ptr; }
+		wrapperlin() { ptr = new CdllAtaxx; }
+		~wrapperlin() { this->!wrapperlin(); }
+		!wrapperlin() { delete ptr; }
 
 		void helpsearch() {
 			return ptr->helpsearch();

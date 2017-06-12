@@ -26,7 +26,7 @@ namespace Ataxx
         public static string sb;
         String wl;
         String bl;
-        private ClassLibrary1.wrapper invoke;
+        private ClassLibrary1.wrapperlin invoke;
         int[,] board = new int[7, 7];
         public static int b = 0, w = 0;
         int x, y, x1, y1;
@@ -367,7 +367,7 @@ namespace Ataxx
                 Drawchessboard(ii, false);
             }
             drawing(0,0,0,0,0);
-            invoke = new ClassLibrary1.wrapper();
+            invoke = new ClassLibrary1.wrapperlin();
             click_times= 0;
             Start.IsEnabled = false;
         }
