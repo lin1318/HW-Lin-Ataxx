@@ -274,7 +274,6 @@ namespace Ataxx
         private void Chuman_Click(object sender,RoutedEventArgs e)
         {
             mode = 1;
-            sta = 1;
             BlackLabel.Content = "Black: " + "Computer";
             WhiteLabel.Content = "White: " + "Player";
             ModeLabel.Content = "Mode: " + "computer vs human";
