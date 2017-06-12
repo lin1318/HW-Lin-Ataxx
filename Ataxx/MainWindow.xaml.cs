@@ -176,6 +176,8 @@ namespace Ataxx
                     playbyAI();
 #pragma warning restore CS4014
                     turn++;
+                    StatusLabel.Content = "Status:" + "Player1 Turn";
+
                 }
                 else
                 { 
