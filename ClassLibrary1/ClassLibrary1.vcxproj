@@ -123,7 +123,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\Users\lin1318\Desktop\dllAtaxx\originboard;..\dllAtaxx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\lin1318\Documents\Visual Studio 2017\Projects\dllAtaxx\originboard;..\dllAtaxx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -161,9 +161,6 @@
   <ItemGroup>
     <ProjectReference Include="..\dllAtaxx\dllAtaxx.vcxproj">
       <Project>{53819bba-0d49-4732-be91-2732ce42980f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\originboard\originboard.vcxproj">
-      <Project>{960ac540-950b-4546-b602-6001a696e5bb}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

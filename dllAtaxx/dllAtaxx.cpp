@@ -112,7 +112,7 @@ double  CdllAtaxx::evaluate(int chessboard[7][7]) {
 				}
 	return score;
 }
-double  CdllAtaxx::alphabeta(int chessboard[7][7], int depth, double alpha, double beta, int player) {
+double CdllAtaxx::alphabeta(int chessboard[7][7], int depth, double alpha, double beta, int player) {
 	int i, j, k, x, y, xi, yi;
 	double v, p;
 	int originboard[7][7];

@@ -9,18 +9,18 @@
 #else
 #define ORIGINBOARD_API __declspec(dllimport)
 #endif
-
 // 此类是从 originboard.dll 导出的
 class ORIGINBOARD_API Coriginboard {
 public:
-	Coriginboard(void);
-	virtual void alphabeta() {
-
-	}
-	virtual void evaluate() {
-
-	}
+	Coriginboard(void); 
+	Coriginboard(int w, int l);
+	 int evaluate();
+	 int alphabeta(int player, int depth, int alpha, int beta);
+	 void reset();
 	// TODO:  在此添加您的方法。
+private:
+	int testboard[20][20];
+	int bw, bl;
 };
 
 extern ORIGINBOARD_API int noriginboard;
